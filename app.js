@@ -9,7 +9,5 @@ const sequelize=require("./config/config.js");
 
 
 
-app.get("/post", (req, res) => {
-    res.json({ message: "je suis le message" });
-});
+app.use("/post", require('./routes/user.routes.js'));
 app.listen(port, () => console.log(`le site tourne sur le port ${port}`));
