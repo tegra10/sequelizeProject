@@ -8,5 +8,15 @@ const sequelize = new Sequelize(
         dialect: "mysql"
     }
 );
+sequelize
+    .sync()
+    .then(() => {
+        console.log("Base de données synchronisée");
+    })
+    .catch(error => {
+        console.error(
+            "Erreur lors de la synchronisation de la base de données : " + error
+        );
+    });
 
 module.exports = sequelize;
