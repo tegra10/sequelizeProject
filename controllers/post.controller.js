@@ -13,7 +13,7 @@ module.exports.getPosts = async (req, res) => {
     }
 };
 module.exports.setPosts = async (req, res) => {
-   const {name,email}=req.body
+    const { name, email } = req.body;
     try {
         if (!name) {
             res.status(400).json({ message: "Merci d'ajouter un message" });
