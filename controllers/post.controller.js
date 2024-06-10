@@ -4,7 +4,7 @@ const postModel = require("../models/user.js");
 module.exports.getPosts = async (req, res) => {
     try {
         const users = await postModel.findAll({
-            attributes: ["id", "nom", "email"]
+            attributes: ["id", "name", "email"]
         });
         res.status(200).json(users);
     } catch (err) {
