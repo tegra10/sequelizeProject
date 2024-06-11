@@ -1,6 +1,6 @@
 "use strict";
 const postModel = require("../models/user.js");
-
+// partie qui s'occupe de recuperer les données de la base des données
 module.exports.getPosts = async (req, res) => {
     try {
         const users = await postModel.findAll({
@@ -12,6 +12,7 @@ module.exports.getPosts = async (req, res) => {
         console.log("l'erreur est " + err);
     }
 };
+// partie des posts
 module.exports.setPosts = async (req, res) => {
     const { name, email } = req.body;
     try {
@@ -28,6 +29,8 @@ module.exports.setPosts = async (req, res) => {
         console.error(err);
     }
 };
+
+// partie de tout ce qui est edition des données existantes
 module.exports.editPosts = async (req, res) => {
     const userId = req.params.id;
     const { name } = req.body;
@@ -55,7 +58,7 @@ module.exports.editPosts = async (req, res) => {
             });
         });
 };
-
+// partie de suppression des données
 module.exports.deletePosts = async (req, res) => {
     const userId = req.params.id;
     postModel
@@ -71,9 +74,9 @@ module.exports.deletePosts = async (req, res) => {
             res.status(200).json({
                 message: `l'id nº ${userId} a bien était supprimé`
             });
-        }).catch(err=>{
-          res.status(500).json({message:`l'erreur est ${err}`})
-          console.error(err)
         })
-        
+        .catch(err => {
+            res.status(500).json({ message: `l'erreur est ${err}` });
+            console.error(err);
+        });
 };
