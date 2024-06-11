@@ -1,10 +1,11 @@
 "use strict";
+const bcrypt = require("bcryptjs");
 const postModel = require("../models/user.js");
 // partie qui s'occupe de recuperer les données de la base des données
 module.exports.getPosts = async (req, res) => {
     try {
         const users = await postModel.findAll({
-            attributes: ["id", "name", "email"]
+            attributes: ["id", "name", "email", "password"]
         });
         res.status(200).json(users);
     } catch (err) {
@@ -14,15 +15,28 @@ module.exports.getPosts = async (req, res) => {
 };
 // partie des posts
 module.exports.setPosts = async (req, res) => {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
     try {
         if (!name) {
-            res.status(400).json({ message: "Merci d'ajouter un message" });
+            res.status(400).json({ message: "Merci d'ajouter le nom" });
+        } else if (!email) {
+            res.status(400).json({
+                message: "Merci d'ajouter le mot l'email"
+            });
+        } else if (!password) {
+            console.error("y'a une erreur");
+            res.status(400).json({
+                message: "Merci d'ajouter le mot de passe"
+            });
         }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         const post = await postModel.create({
             name,
-            email
+            email,
+            password: hashedPassword
         });
         res.status(201).json(post);
     } catch (err) {

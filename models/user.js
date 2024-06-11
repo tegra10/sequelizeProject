@@ -11,17 +11,26 @@ const User = sequelize.define(
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            set(value) {
+                this.setDataValue("name", value.trim());
+            }
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
+            set(value) {
+                this.setDataValue("email", value.trim());
+            }
         },
-        password:{
-          type:DataTypes.STRING,
-          allowNull:false,
-          unique:true
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            set(value) {
+                this.setDataValue("password", value.trim());
+            }
         }
     },
     {
