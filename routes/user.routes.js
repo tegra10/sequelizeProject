@@ -5,12 +5,16 @@ const {
     getPosts,
     setPosts,
     editPosts,
-    deletePosts
+    deletePosts,
+    likePosts,
+    disLikePosts
 } = require("../controllers/post.controller.js");
 
 Router.get("/", getPosts);
 Router.post("/", setPosts);
 Router.put("/:id", editPosts);
+Router.patch("/like/:id", likePosts);
+Router.patch("/dislike/:id", disLikePosts);
 Router.delete("/:id", deletePosts);
 
 module.exports = Router;

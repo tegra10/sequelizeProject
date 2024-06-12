@@ -4,10 +4,11 @@ const postModel = require("../models/user.js");
 // partie qui s'occupe de recuperer les données de la base des données
 module.exports.getPosts = async (req, res) => {
     try {
-        const users = await postModel.findAll({
-            attributes: ["id", "name", "email", "password"]
-        });
-        res.status(200).json(users);
+        const users = await postModel
+            .findAll({
+                attributes: ["id", "name", "email", "password", "likes"]
+            })
+            .then(data => res.status(200).send(data));
     } catch (err) {
         res.status(500).json({ message: err });
         console.log("l'erreur est " + err);
@@ -72,6 +73,24 @@ module.exports.editPosts = async (req, res) => {
             });
         });
 };
+// patch sur les likes
+module.exports.likePosts = async (req, res) => {
+    const userId = req.params.id;
+    const likePost = req.body.likes;
+
+    try {
+        const user = await postModel.findByPk(userId);
+        let likes = Array.isArray( user.likes )? user.likes: [];
+        likes.push(likePost);
+        await user.update({ likes });
+        res.status(200).send("post liké");
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: `l'erreur est : ${err}` });
+    }
+};
+module.exports.disLikePosts = async (req, res) => {};
+// patch sur les disLikes
 // partie de suppression des données
 module.exports.deletePosts = async (req, res) => {
     const userId = req.params.id;

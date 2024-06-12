@@ -31,6 +31,11 @@ const User = sequelize.define(
             set(value) {
                 this.setDataValue("password", value.trim());
             }
+        },
+        likes:{
+          type:DataTypes.JSON,
+          allowNull:true,
+          
         }
     },
     {
